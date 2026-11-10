@@ -1,0 +1,20 @@
+/* Dark: near-black room, light text, white accent. The pages keep their own colours. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap");
+
+:root {
+  color-scheme: dark;
+  --bg: #0b0b0b;
+  --ink: #f1efea;
+  --ink-2: #8f8d88;
+  --rule: rgba(255, 255, 255, 0.16);
+  --accent: #ffffff;
+  --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --paper: #ffffff;
+  --page-edge: rgba(255, 255, 255, 0.08);
+  --page-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.6);
+  --page-filter: none;
+  --spine-shade: rgba(0, 0, 0, 0.3);
+  --bar-bg: rgba(11, 11, 11, 0.9);
+  --thumb-ring: #ffffff;
+}

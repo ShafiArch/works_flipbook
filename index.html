@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portfolio · Shafiul Islam</title>
+  <meta name="description" content="Architecture portfolio of Shafiul Islam, as a flipbook.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="themes/themes.js?v=1"></script>
+  <link rel="stylesheet" href="assets/book.css?v=1">
+</head>
+<body class="viewer">
+  <header class="bar top">
+    <div class="brand"><a class="title" href="./" data-title>Portfolio</a><span class="author" data-author></span></div>
+    <nav class="links" data-links aria-label="Other sites"></nav>
+    <div class="tools">
+      <button type="button" class="tb" data-contents aria-expanded="false" aria-controls="contents">Contents</button>
+      <span data-theme-switch></span>
+      <button type="button" class="tb icon" data-fullscreen aria-label="Full screen" title="Full screen (f)">&#x26F6;</button>
+    </div>
+  </header>
+
+  <main class="stage" data-stage>
+    <div class="viewport" data-viewport>
+      <div class="book" data-book aria-live="polite"></div>
+    </div>
+    <button type="button" class="turn prev" data-prev aria-label="Previous page" title="Previous (left arrow)"><span></span></button>
+    <button type="button" class="turn next" data-next aria-label="Next page" title="Next (right arrow)"><span></span></button>
+    <p class="loading" data-loading>Opening the book.</p>
+  </main>
+
+  <footer class="bar bottom">
+    <button type="button" class="tb icon" data-prev2 aria-label="Previous page">&#8249;</button>
+    <span class="pos" data-pos aria-live="polite"></span>
+    <button type="button" class="tb icon" data-next2 aria-label="Next page">&#8250;</button>
+    <input class="slider" type="range" min="1" max="1" value="1" data-slider aria-label="Go to page">
+    <button type="button" class="tb" data-mode title="One page or two pages">2 pages</button>
+    <button type="button" class="tb" data-thumbs aria-expanded="false" aria-controls="strip">Pages</button>
+    <span class="zoom">
+      <button type="button" class="tb icon" data-zoom-out aria-label="Zoom out">&minus;</button>
+      <button type="button" class="tb pct" data-zoom-reset title="Reset zoom">100%</button>
+      <button type="button" class="tb icon" data-zoom-in aria-label="Zoom in">+</button>
+    </span>
+  </footer>
+
+  <div class="strip" id="strip" data-strip hidden></div>
+  <div class="contents" id="contents" data-contents-panel hidden></div>
+
+  <script src="assets/book-data.js?v=1"></script>
+  <script src="assets/book.js?v=1"></script>
+</body>
+</html>

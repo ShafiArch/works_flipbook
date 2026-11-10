@@ -1,0 +1,20 @@
+/* White: pure white room, black text, orange accent (the same orange as the works site). */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --ink: #111111;
+  --ink-2: #767676;
+  --rule: rgba(0, 0, 0, 0.12);
+  --accent: #c4512f;
+  --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --paper: #ffffff;                      /* blank pages and the back of a turning leaf */
+  --page-edge: rgba(0, 0, 0, 0.14);      /* thin line around each page */
+  --page-shadow: 0 18px 50px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+  --page-filter: none;                   /* applied to the page images */
+  --spine-shade: rgba(0, 0, 0, 0.16);    /* darkness in the fold between two pages */
+  --bar-bg: rgba(255, 255, 255, 0.92);
+  --thumb-ring: #111111;
+}

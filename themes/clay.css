@@ -1,0 +1,22 @@
+/* Clay: an e-ink look. Warm grey paper, soft contrast, brick accent.
+   --page-filter tones the page images down a little to sit with the room;
+   set it to none to show them exactly as exported. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap");
+
+:root {
+  color-scheme: light;
+  --bg: #e6e1d8;
+  --ink: #2a2420;
+  --ink-2: #7a7067;
+  --rule: rgba(42, 36, 32, 0.18);
+  --accent: #a8482a;
+  --font: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --paper: #ffffff;
+  --page-edge: rgba(42, 36, 32, 0.2);
+  --page-shadow: 0 10px 30px rgba(60, 45, 30, 0.22), 0 1px 3px rgba(60, 45, 30, 0.18);
+  --page-filter: sepia(0.1) contrast(0.96) saturate(0.9);
+  --spine-shade: rgba(42, 36, 32, 0.18);
+  --bar-bg: rgba(230, 225, 216, 0.94);
+  --thumb-ring: #2a2420;
+}

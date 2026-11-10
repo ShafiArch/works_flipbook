@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page order · Portfolio flipbook</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="themes/themes.js?v=1"></script>
+  <link rel="stylesheet" href="assets/manage.css?v=1">
+</head>
+<body class="page-manage">
+  <header class="m-top">
+    <div class="m-brand"><a href="./">Flipbook</a><span>Page order</span><a class="m-switch" href="./" target="_blank" rel="noopener">Open the book</a></div>
+    <div class="m-status" data-status></div>
+    <div class="m-actions">
+      <span data-theme-switch></span>
+      <button type="button" class="m-btn" data-reset>Discard changes</button>
+      <span data-gh></span>
+      <button type="button" class="m-btn" data-download>Download zip</button>
+      <button type="button" class="m-btn m-primary" data-publish>Publish</button>
+    </div>
+  </header>
+  <div class="m-banner" data-banner hidden></div>
+  <div class="m-layout">
+    <main class="m-main">
+      <div class="m-head">
+        <div><h1>Pages in order</h1><p class="m-muted">Drag rows to reorder. A file about twice as wide as a page is a spread and takes two page numbers. A spread must start on a left-hand (even) page; add a blank before it when the tool says so.</p></div>
+        <div class="m-head-btns">
+          <button type="button" class="m-btn" data-add-blank>Add a blank page</button>
+          <button type="button" class="m-btn m-primary" data-add-files>Add pages from files</button>
+          <input type="file" accept="image/*" multiple hidden data-file-input>
+        </div>
+      </div>
+      <ol class="m-rows" data-rows></ol>
+      <section class="m-sec" data-unused-sec hidden>
+        <h2 class="m-h2">Files not in the book</h2>
+        <p class="m-muted">In <code>pages/</code> but not in the order above. Add one back, or delete it from the repository.</p>
+        <ul class="m-rows m-unused" data-unused></ul>
+      </section>
+    </main>
+    <aside class="m-side">
+      <h2 class="m-h2">How the pages pair</h2>
+      <div class="m-preview" data-preview></div>
+      <h2 class="m-h2">Book settings</h2>
+      <form class="m-settings" data-settings>
+        <label class="m-field"><span class="m-label">Title</span><input name="title"></label>
+        <label class="m-field"><span class="m-label">Author</span><input name="author"></label>
+        <label class="m-check"><input type="checkbox" name="coverAlone"> First page stands alone on the right, like a closed book</label>
+        <label class="m-check"><input type="checkbox" name="hires"> Load the full-size original when a page is zoomed in</label>
+        <div class="m-field"><span class="m-label">Links in the top bar</span><div data-links></div><button type="button" class="m-btn m-small" data-add-link>Add a link</button></div>
+      </form>
+    </aside>
+  </div>
+  <script src="assets/book-data.js?v=1"></script>
+  <script src="assets/zip.js?v=1"></script>
+  <script src="assets/github.js?v=1"></script>
+  <script src="assets/manage.js?v=1"></script>
+</body>
+</html>

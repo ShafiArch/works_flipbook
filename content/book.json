@@ -1,0 +1,143 @@
+{
+  "title": "Portfolio",
+  "author": "Shafiul Islam",
+  "pageRatio": 1.414,
+  "coverAlone": true,
+  "hires": true,
+  "links": [
+    {
+      "label": "Works",
+      "href": "https://shafiarch.github.io/works_shafi/"
+    }
+  ],
+  "pages": [
+    {
+      "file": "cover-page.webp",
+      "label": "Cover"
+    },
+    {
+      "file": "filler-page-blank.webp"
+    },
+    {
+      "file": "index-page.webp",
+      "label": "Index"
+    },
+    {
+      "file": "plastic-city-01-02.webp",
+      "label": "Legocity"
+    },
+    {
+      "file": "plastic-city-03-04.webp"
+    },
+    {
+      "file": "plastic-city-05-06.webp"
+    },
+    {
+      "file": "plastic-city-07-08.webp"
+    },
+    {
+      "file": "plastic-city-09.webp"
+    },
+    {
+      "blank": true
+    },
+    {
+      "blank": true
+    },
+    {
+      "file": "handloom-01.webp",
+      "label": "Dwelling Space of Handloom Workers"
+    },
+    {
+      "file": "handloom-02-03.webp"
+    },
+    {
+      "file": "handloom-04-05.webp"
+    },
+    {
+      "file": "handloom-06-07.webp"
+    },
+    {
+      "file": "flyover-01-02.webp",
+      "label": "Space Under Flyover"
+    },
+    {
+      "file": "flyover-03-04.webp"
+    },
+    {
+      "file": "metal-roofing-01-02.webp",
+      "label": "Metal Roofing in RMG Industries"
+    },
+    {
+      "file": "metal-roofing-03-04.webp"
+    },
+    {
+      "file": "metal-roofing-05.webp"
+    },
+    {
+      "file": "metal-roofing-06-filler.webp"
+    },
+    {
+      "file": "architects-center-01-02.webp",
+      "label": "Architect's Center"
+    },
+    {
+      "file": "workshop-page-01-02.webp",
+      "label": "Workshop Sessions"
+    },
+    {
+      "file": "workshop-page-03.webp"
+    },
+    {
+      "file": "workshop-page-04-filler.webp"
+    },
+    {
+      "file": "filler-tamayouz-interior.webp",
+      "label": "IDA Interior",
+      "labelRight": "Natural Healing"
+    },
+    {
+      "file": "filler-page-sundarbari.webp",
+      "label": "Sundar Bari"
+    },
+    {
+      "blank": true
+    },
+    {
+      "file": "sentience-01-02.webp",
+      "label": "Sentience"
+    },
+    {
+      "file": "sentience-03.webp"
+    },
+    {
+      "file": "fabrication-parametric-screen-01.webp",
+      "label": "Parametric Screening"
+    },
+    {
+      "file": "shakharia-01-02.webp",
+      "label": "Residences"
+    },
+    {
+      "file": "shakharia-03-04.webp"
+    },
+    {
+      "file": "residence-01-02.webp"
+    },
+    {
+      "file": "residence-03-04.webp"
+    },
+    {
+      "file": "golf-hotel-01-02.webp"
+    },
+    {
+      "file": "ari-interior-01-02.webp",
+      "label": "Interiors"
+    },
+    {
+      "file": "last-page.webp",
+      "label": "Hasan Residence",
+      "labelRight": "Awards and Sketches"
+    }
+  ]
+}
