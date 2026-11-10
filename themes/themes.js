@@ -3,11 +3,11 @@
    (assets/book.css) only reads the tokens, so a theme can be added, changed or
    removed without touching anything else.
 
-   DEFAULT : the theme a first-time visitor sees.
+   DEFAULT : the theme the book always opens in.
    THEMES  : file name (without .css) and the label on the switch, in order.
 
-   The visitor's choice is remembered in their browser. ?theme=dark in the
-   address opens the book in that theme. */
+   The book always opens in DEFAULT; the switch changes the theme for that visit
+   only. ?theme=dark in the address opens the book in that theme. */
 
 window.BOOK_THEMES = {
   DEFAULT: "white",
@@ -19,10 +19,9 @@ window.BOOK_THEMES = {
 };
 
 (function () {
-  var T = window.BOOK_THEMES, name = T.DEFAULT, stored = null;
+  var T = window.BOOK_THEMES, name = T.DEFAULT;
   var asked = new URLSearchParams(location.search).get("theme");
-  try { stored = localStorage.getItem("flipbook-theme"); } catch (e) {}
-  if (stored && T.THEMES[stored]) name = stored;
+  try { localStorage.removeItem("flipbook-theme"); } catch (e) {}  // older versions remembered the choice
   if (asked && T.THEMES[asked]) name = asked;
   var base = document.currentScript.src.replace(/themes\.js.*$/, "");
   T.current = name;
@@ -34,7 +33,6 @@ window.BOOK_THEMES = {
   T.set = function (next) {
     if (!T.THEMES[next] || next === T.current) return;
     T.current = next;
-    try { localStorage.setItem("flipbook-theme", next); } catch (e) {}
     var old = document.getElementById("theme-css");
     var link = document.createElement("link");
     link.rel = "stylesheet";

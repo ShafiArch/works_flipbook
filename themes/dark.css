@@ -16,5 +16,7 @@
   --page-filter: none;
   --spine-shade: rgba(0, 0, 0, 0.3);
   --bar-bg: rgba(11, 11, 11, 0.9);
+  --slider-track: #2a2a2a;
+  --slider-knob: #6a6a6a;
   --thumb-ring: #ffffff;
 }

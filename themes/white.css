@@ -16,5 +16,7 @@
   --page-filter: none;                   /* applied to the page images */
   --spine-shade: rgba(0, 0, 0, 0.16);    /* darkness in the fold between two pages */
   --bar-bg: rgba(255, 255, 255, 0.92);
+  --slider-track: #ececec;
+  --slider-knob: #bdbdbd;
   --thumb-ring: #111111;
 }

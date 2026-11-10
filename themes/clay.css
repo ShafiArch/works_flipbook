@@ -18,5 +18,7 @@
   --page-filter: sepia(0.1) contrast(0.96) saturate(0.9);
   --spine-shade: rgba(42, 36, 32, 0.18);
   --bar-bg: rgba(230, 225, 216, 0.94);
+  --slider-track: #d9d2c6;
+  --slider-knob: #a69c90;
   --thumb-ring: #2a2420;
 }

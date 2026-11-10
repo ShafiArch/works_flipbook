@@ -79,10 +79,10 @@ Locally the same step is `python3 tools/pages.py` (needs Pillow: `pip install pi
 
 ## 4. Themes
 
-Three themes, switched in the top bar and remembered by the visitor's browser: White,
+Three themes, switched in the top bar for the current visit (the book always opens in White):
 Dark, and Clay (an e-ink look; its `--page-filter` tones the page images slightly, set it
-to `none` to show them exactly as exported). Colours live in `themes/*.css`; the theme a
-first-time visitor sees is `DEFAULT` in `themes/themes.js`. `?theme=dark` in the address
+to `none` to show them exactly as exported). Colours live in `themes/*.css`; the theme the book
+opens in is `DEFAULT` in `themes/themes.js`. `?theme=dark` in the address
 opens the book in a theme.
 
 ## 5. Links

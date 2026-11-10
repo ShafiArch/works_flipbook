@@ -42,7 +42,14 @@ button { font: inherit; color: inherit; }
 .theme-switch button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
 .pos { font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap; min-width: 7.5em; text-align: center; }
-.slider { flex: 1; min-width: 60px; accent-color: var(--accent); height: 20px; margin: 0 6px; }
+/* the page slider: a quiet light grey track with a small grey knob, in every theme */
+.slider { flex: 1; min-width: 60px; height: 20px; margin: 0 6px; background: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.slider::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--slider-track); }
+.slider::-moz-range-track { height: 4px; border-radius: 2px; background: var(--slider-track); }
+.slider::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--slider-track); }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%; background: var(--slider-knob); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--rule); }
+.slider::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--slider-knob); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--rule); }
+.slider:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .zoom { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
 
 /* ---------- stage ---------- */
