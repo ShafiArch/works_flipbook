@@ -1,0 +1,185 @@
+{
+  "note": "Written by tools/pages.py. Lists every original in pages/ with its size.",
+  "files": {
+    "architects-center-01-02.webp": {
+      "w": 9922,
+      "h": 3507,
+      "spread": true
+    },
+    "ari-interior-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "cover-page.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "fabrication-parametric-screen-01.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "filler-page-blank.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "filler-page-interior-design-competition.webp": {
+      "w": 4939,
+      "h": 3492,
+      "spread": false
+    },
+    "filler-page-sundarbari.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "filler-page-tamayouz.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "filler-tamayouz-interior.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "flyover-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "flyover-03-04.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "golf-hotel-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "handloom-01.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "handloom-02-03.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "handloom-04-05.webp": {
+      "w": 9923,
+      "h": 3508,
+      "spread": true
+    },
+    "handloom-06-07.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "index-page.webp": {
+      "w": 4962,
+      "h": 3508,
+      "spread": false
+    },
+    "last-page.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "metal-roofing-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "metal-roofing-03-04.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "metal-roofing-05.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "metal-roofing-06-filler.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "plastic-city-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "plastic-city-03-04.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "plastic-city-05-06.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "plastic-city-07-08.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "plastic-city-09.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "residence-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "residence-03-04.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "sentience-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "sentience-03.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    },
+    "shakharia-01-02.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "shakharia-03-04.webp": {
+      "w": 9922,
+      "h": 3508,
+      "spread": true
+    },
+    "workshop-page-01-02.webp": {
+      "w": 9922,
+      "h": 3507,
+      "spread": true
+    },
+    "workshop-page-03.webp": {
+      "w": 4962,
+      "h": 3508,
+      "spread": false
+    },
+    "workshop-page-04-filler.webp": {
+      "w": 4961,
+      "h": 3508,
+      "spread": false
+    }
+  }
+}
