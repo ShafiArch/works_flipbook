@@ -10,7 +10,7 @@ shows comes from two files and one folder:
 | The page images, full size, exactly as exported from Photoshop | `pages/` |
 | Smaller copies the viewer loads (made for you) | `pages/web/` and `pages/thumb/` |
 | Sizes of the files in `pages/` (made for you) | `pages/manifest.json` |
-| The viewer | `index.html`, `assets/book.js`, `assets/book.css` |
+| The viewer | `index.html`, `assets/book.js`, `assets/book.css`, the page-turn engine in `assets/vendor/` |
 | The page order tool | `manage.html`, `assets/manage.js` |
 | Themes | `themes/white.css`, `themes/dark.css`, `themes/clay.css`, `themes/themes.js` |
 | The robot that prepares pages and checks the book | `.github/workflows/book.yml`, `tools/pages.py`, `tools/health.mjs` |
@@ -28,10 +28,13 @@ tells you where). A single page always gets a blank half next to it, unless anot
 single page follows it: `metal-roofing-05` and `metal-roofing-06-filler` are two singles
 that sit together as one view.
 
-The viewer shows two pages side by side when the window is wider than it is tall,
-and the same two pages one above the other on a phone held upright. The "1 page" button
-switches to a single page at a time. Pinch, mouse wheel or double click zooms in; on a
-computer the zoomed page loads the full-size original for crisp text.
+The viewer shows two pages side by side, edge to edge, when the window is wider than it
+is tall, and the same two pages one above the other on a phone held upright. The "1 page"
+button switches to a single page at a time. Pages turn like paper: mouse wheel, a click
+on a page (left half back, right half forward), swipe, arrow keys, the slider, the
+thumbnail strip and the Contents list. Pinch, Ctrl+wheel, the zoom buttons or a double
+click (or two taps) zoom in; when zoomed, the wheel and dragging pan. On a computer the
+zoomed page loads the full-size original for crisp text.
 
 ## 2. Adding, removing and reordering pages: the page order tool
 

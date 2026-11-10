@@ -46,7 +46,7 @@ button { font: inherit; color: inherit; }
 .zoom { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
 
 /* ---------- stage ---------- */
-.stage { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+.stage { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: default; }
 .viewport { position: absolute; inset: 0; overflow: hidden; }
 .loading { position: absolute; left: 50%; transform: translateX(-50%); margin: 0; color: var(--ink-2); font-size: 13px; }
 .loading { top: 50%; transform: translate(-50%, -50%); }
@@ -66,48 +66,35 @@ button { font: inherit; color: inherit; }
 @media (hover: none) { .turn { display: none; } }
 
 /* ---------- the book ---------- */
-.book { position: absolute; transform-origin: 0 0; will-change: transform; }
-.layers { position: absolute; inset: 0; transform-style: preserve-3d; }
-.base { position: absolute; inset: 0; display: flex; }
-.page {
-  position: relative; flex: none; width: 50%; height: 100%; overflow: hidden; background: var(--paper);
-  background-size: cover; background-repeat: no-repeat; box-shadow: var(--page-shadow); outline: 1px solid var(--page-edge); outline-offset: -1px;
-}
-.book.single .page { width: 100%; }
-.book.stack .base, .book.stack .face { flex-direction: column; display: flex; }
-.book.stack .page { width: 100%; height: 50%; }
-.book.stack .face .page { width: 100%; }
-.page.L { background-position: 0% 50%; }
-.page.R { background-position: 100% 50%; }
-.page.none { visibility: hidden; box-shadow: none; }        /* no page here (left of the cover) */
-.page.blank { background-image: none; }
-.page { filter: var(--page-filter); }
-.pimg {
-  display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.25s; pointer-events: none;
-}
+.zoomer { position: absolute; transform-origin: 0 0; will-change: transform; }
+.book { position: relative; width: 100%; height: 100%; box-shadow: var(--page-shadow); }
+.pan { position: absolute; inset: 0; cursor: grab; }
+.pan[hidden] { display: none; }
+.stage.is-zoomed .book { box-shadow: none; }
+
+/* page elements handed to the flip engine (it sets their size and transforms) */
+.page { background: var(--paper); overflow: hidden; }
+.page .ph { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; filter: var(--page-filter); }
+.page.L .ph { background-position: 0% 50%; }
+.page.R .ph { background-position: 100% 50%; }
+.page.none .ph { background: transparent; }
+.page.blank .ph { background-image: none; }
+.pimg { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
 .page.L .pimg { object-position: 0% 50%; }
 .page.R .pimg { object-position: 100% 50%; }
 .page.full .pimg { object-fit: contain; }
 .pimg.is-loaded { opacity: 1; }
-.page .fold { position: absolute; top: 0; bottom: 0; width: 7%; pointer-events: none; }
-.page.L .fold { right: 0; background: linear-gradient(to left, var(--spine-shade), transparent); }
-.page.R .fold { left: 0; background: linear-gradient(to right, var(--spine-shade), transparent); }
-.book.single .page .fold, .book.stack .page .fold, .page.full .fold { display: none; }
-.page .cast { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(to right, rgba(0, 0, 0, 0.35), transparent 60%); }
-.page.L .cast { background: linear-gradient(to left, rgba(0, 0, 0, 0.35), transparent 60%); }
+.pimg.hi { position: absolute; inset: 0; opacity: 1; }
+/* the stacked pair of the portrait view */
+.page.stackpair > .page { position: absolute; left: 0; width: 100%; height: 50%; }
+.page.stackpair > .page.R { top: 50%; }
 
-.leaf { position: absolute; top: 0; height: 100%; width: 50%; transform-style: preserve-3d; z-index: 2; display: none; }
-.leaf.on { display: block; }
-.leaf.from-right { left: 50%; transform-origin: 0% 50%; }
-.leaf.from-left { left: 0; transform-origin: 100% 50%; }
-.book.single .leaf, .book.stack .leaf { width: 100%; left: 0; transform-origin: 0% 50%; }
-.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; background: var(--paper); }
-.face.back { transform: rotateY(180deg); }
-.face .page { width: 100%; box-shadow: none; }
-.face .page .fold { display: none; }
-.shade { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(to right, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.3)); }
-
-.book.is-zoomed .page { box-shadow: none; }
+/* the engine's own containers */
+.stf__parent { position: relative; display: block; box-sizing: border-box; transform: translateZ(0); touch-action: none; }
+.stf__wrapper { position: relative; width: 100%; height: 100%; box-sizing: border-box; }
+.stf__block { position: absolute; width: 100%; height: 100%; box-sizing: border-box; perspective: 2000px; }
+.stf__item { display: none; position: absolute; transform-style: preserve-3d; }
+.stf__outerShadow, .stf__innerShadow, .stf__hardShadow, .stf__hardInnerShadow { position: absolute; left: 0; top: 0; }
 
 /* ---------- thumbnails strip ---------- */
 .strip {

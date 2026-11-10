@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="themes/themes.js?v=1"></script>
-  <link rel="stylesheet" href="assets/book.css?v=1">
+  <script src="themes/themes.js?v=2"></script>
+  <link rel="stylesheet" href="assets/book.css?v=2">
 </head>
 <body class="viewer">
   <header class="bar top">
@@ -24,7 +24,8 @@
 
   <main class="stage" data-stage>
     <div class="viewport" data-viewport>
-      <div class="book" data-book aria-live="polite"></div>
+      <div class="zoomer" data-zoomer><div class="book" data-book aria-live="polite"></div></div>
+      <div class="pan" data-pan hidden></div>
     </div>
     <button type="button" class="turn prev" data-prev aria-label="Previous page" title="Previous (left arrow)"><span></span></button>
     <button type="button" class="turn next" data-next aria-label="Next page" title="Next (right arrow)"><span></span></button>
@@ -48,7 +49,8 @@
   <div class="strip" id="strip" data-strip hidden></div>
   <div class="contents" id="contents" data-contents-panel hidden></div>
 
-  <script src="assets/book-data.js?v=1"></script>
-  <script src="assets/book.js?v=1"></script>
+  <script src="assets/vendor/page-flip.js?v=2"></script>
+  <script src="assets/book-data.js?v=2"></script>
+  <script src="assets/book.js?v=2"></script>
 </body>
 </html>

@@ -19,8 +19,9 @@ its own smaller copies.
 
 - No em dashes or en dashes anywhere (code comments, docs, JSON, site text); commas,
   semicolons, parentheses or periods. The health check flags them.
-- Plain files, no build step, no dependencies in the browser. Node and Python are used
-  only by the robot (`tools/`).
+- Plain files, no build step. The one browser dependency is the page-turn engine
+  `assets/vendor/page-flip.js` (StPageFlip 2.0.7, MIT, licence beside it), vendored so
+  the book never depends on a CDN. Node and Python are used only by the robot (`tools/`).
 - Whenever a `.js` or `.css` file changes, raise `?v=N` on every script and stylesheet
   tag in `index.html` and `manage.html` to the same number.
 - Archivo (Google Fonts) throughout, matching the works site.
@@ -64,12 +65,20 @@ written by `tools/pages.py` and by the page order tool when it adds files.
 - `assets/book-data.js`: `BookData.load()`, `pages()` (items to numbered pages, L/R
   halves), `spreads()` (pages to views), `isSpread()`, `src()`. Shared by viewer and tool.
 - `assets/book.js`: the viewer. Modes: `spread` (side by side, window wider than tall),
-  `stack` (same pair one above the other, portrait), `single`. `fit()` sizes the book,
-  `render()` builds the base layer, `go(n)` runs the leaf animation (Web Animations API:
-  a `.leaf` with front and back faces rotating around the spine, base layer prepared
-  with the pages that show under and after it). Zoom is a transform on `.book` with
-  `zoomTo(s, point)`, pinch and wheel in `gestures()`. Hi-res swap in `applyHires()`.
-  `#p=N` in the address is kept up to date.
+  `stack` (same pair one above the other, portrait), `single`. `fit()` sizes the book to
+  the full stage width (height-bound when needed) and `build()` hands page elements to
+  the engine (`new St.PageFlip(bookEl, settings)`, `loadFromHTML(items)`): every page
+  of `P` in spread and single modes, one stacked pair per view of `S` in stack mode.
+  Orientation is forced through `minWidth` (the engine goes portrait when the block is
+  narrower than twice minWidth); `showCover` gives the lone cover. `useMouseEvents` is
+  off: `gestures()` does swipe, tap or click (delayed 330 ms to allow a double), pinch,
+  pan and wheel (one turn per wheel gesture, Ctrl+wheel zooms, wheel pans when zoomed).
+  The engine removes its root element on `destroy()`, so `build()` makes a fresh
+  `.book` inside `.zoomer` each time. Zoom is a transform on `.zoomer`; `.pan` overlays
+  the book while zoomed so the engine never sees scaled coordinates. `loadNear()` sets
+  image sources only near the current view (the engine keeps every page in the DOM).
+  `applyHires()` lays the decoded original over the web copy at 1.5x and more;
+  `dropHires()` removes them on reset. `#p=N` in the address is kept up to date.
 - `assets/book.css`: layout only; tokens come from `themes/*.css` (`--bg`, `--ink`,
   `--ink-2`, `--rule`, `--accent`, `--font`, `--paper`, `--page-edge`, `--page-shadow`,
   `--page-filter`, `--spine-shade`, `--bar-bg`, `--thumb-ring`).
@@ -114,6 +123,9 @@ iPad sizes, and `manage.html`; publishing was tested against a mocked `api.githu
    themes, zoom with hi-res swap, strip, contents, deep links; page order tool with
    publish and zip; pages.py and health check in one workflow; order taken from the
    Index page.
+2. Shafi's review of the first deploy: no fold shading at the spine (seamless spread),
+   wheel turns pages, book fills the width, and paper-like page turns instead of a
+   rigid leaf. Replaced the home-made leaf with the vendored page-flip engine (v=2).
 
 ## Open items
 
