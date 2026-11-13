@@ -1,0 +1,98 @@
+# Book upkeep: after every push to main, every Monday, or by hand (Actions tab,
+# Book upkeep, Run workflow).
+#
+# 1. Prepare pages: tools/pages.py moves image files from the repository root
+#    into pages/, tidies their names, makes the web and thumbnail copies and
+#    updates pages/manifest.json. If anything changed it is committed back and a
+#    GitHub Pages build is requested, so a page uploaded by any route is live a
+#    minute or two later.
+# 2. Health check: tools/health.mjs. Problems open an issue labelled book-health
+#    (GitHub emails it to you); the issue closes itself once a later check is clear.
+name: Book upkeep
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 15 * * 1"   # Mondays, 7:23 in Seattle (15:23 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+
+concurrency:
+  group: book-upkeep
+  cancel-in-progress: false
+
+jobs:
+  upkeep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare pages (names, web and thumbnail copies, manifest)
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 tools/pages.py
+
+      - name: Commit prepared pages
+        id: commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git -c user.name="book-upkeep" -c user.email="actions@users.noreply.github.com" commit -m "Prepare pages (web and thumbnail copies, manifest)"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            # a push made by a workflow does not always start the Pages build; ask for one
+            gh api -X POST "repos/${{ github.repository }}/pages/builds" >/dev/null 2>&1 || echo "Could not request a Pages build (it usually starts on its own)."
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check the book
+        id: health
+        continue-on-error: true
+        run: node tools/health.mjs --report health-report.md
+
+      - name: Open, update or close the health issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS: ${{ steps.health.outputs.status }}
+          EVENT: ${{ github.event_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create book-health --color B60205 --description "Found by the book health check" --force >/dev/null 2>&1 || true
+          open=$(gh issue list --label book-health --state open --json number --jq '.[0].number')
+          # errors always raise the issue; warnings only on the weekly or manual run
+          if [ "$STATUS" = "errors" ] || { [ "$STATUS" = "warnings" ] && [ "$EVENT" != "push" ]; }; then
+            printf '\n[Full run](%s)\n' "$RUN_URL" >> health-report.md
+            if [ -n "$open" ]; then
+              gh issue comment "$open" --body-file health-report.md
+            else
+              gh issue create --title "Book health check found problems" --label book-health --body-file health-report.md
+            fi
+          elif [ "$STATUS" = "ok" ] && [ -n "$open" ]; then
+            gh issue comment "$open" --body "All clear on the latest check. Closing. [Run]($RUN_URL)"
+            gh issue close "$open"
+          fi
+
+      - name: Fail when the book has errors
+        if: steps.health.outcome == 'failure'
+        run: |
+          echo "The book has errors; see the report above or the book-health issue."
+          exit 1

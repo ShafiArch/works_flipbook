@@ -10,6 +10,9 @@ What it does, in order:
 2. Makes the two smaller copies the viewer needs for every original in pages/:
    pages/web/<name>.webp   up to 1600 px per page (3200 for a spread), what the viewer shows
    pages/thumb/<name>.webp up to 200 px per page, for the thumbnail strip and the tool
+   pages/m/<name>.webp     phones: 1100 px wide per page; a spread is cut into its two
+                           halves, <name>-L.webp and <name>-R.webp, so a phone only ever
+                           decodes the page it shows
    Originals stay untouched at full size; the viewer loads them when zoomed in.
 3. Writes pages/manifest.json: every original with its size, so the viewer and the
    tool know which files are spreads (about twice as wide as tall) without loading them.
@@ -31,6 +34,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PAGES = os.path.join(ROOT, "pages")
 WEB = os.path.join(PAGES, "web")
 THUMB = os.path.join(PAGES, "thumb")
+MOBILE = os.path.join(PAGES, "m")
 BOOK = os.path.join(ROOT, "content", "book.json")
 MANIFEST = os.path.join(PAGES, "manifest.json")
 EXT = (".webp", ".jpg", ".jpeg", ".png", ".tif", ".tiff")
@@ -38,6 +42,8 @@ WEB_PAGE = 1600     # longest side of one page in the web copy
 THUMB_PAGE = 200
 WEB_Q = 80
 THUMB_Q = 70
+MOBILE_W = 1100     # width of one page in the phone copy
+MOBILE_Q = 76
 
 CHECK = "--check" in sys.argv
 problems = []
@@ -139,6 +145,7 @@ def is_spread(w, h, page_ratio):
 def derive(page_ratio):
     os.makedirs(WEB, exist_ok=True)
     os.makedirs(THUMB, exist_ok=True)
+    os.makedirs(MOBILE, exist_ok=True)
     manifest = {}
     for name in originals():
         src = os.path.join(PAGES, name)
@@ -150,7 +157,8 @@ def derive(page_ratio):
                 w, h = im.size
                 spread = is_spread(w, h, page_ratio)
                 manifest[name] = {"w": w, "h": h, "spread": spread}
-                need = [p for p in (web, thumb) if not os.path.exists(p)]
+                mob = [os.path.join(MOBILE, stem + "-L.webp"), os.path.join(MOBILE, stem + "-R.webp")] if spread else [os.path.join(MOBILE, stem + ".webp")]
+                need = [p for p in [web, thumb] + mob if not os.path.exists(p)]
                 if not need:
                     continue
                 if CHECK:
@@ -162,13 +170,20 @@ def derive(page_ratio):
                     fit(rgb, WEB_PAGE * per).save(web, "WEBP", quality=WEB_Q, method=4)
                 if thumb in need:
                     fit(rgb, THUMB_PAGE * per).save(thumb, "WEBP", quality=THUMB_Q, method=4)
+                if any(p in need for p in mob):
+                    halves = [rgb.crop((0, 0, w // 2, h)), rgb.crop((w // 2, 0, w, h))] if spread else [rgb]
+                    for part, path in zip(halves, mob):
+                        r = min(1.0, MOBILE_W / part.width)
+                        part.resize((max(1, round(part.width * r)), max(1, round(part.height * r))), Image.LANCZOS).save(path, "WEBP", quality=MOBILE_Q, method=4)
                 print(f"prepared {name}  ({w}x{h}, {'spread' if spread else 'single'})")
         except Exception as e:  # unreadable file
             problems.append(f"pages/{name} could not be read as an image ({e}).")
     # drop copies whose original is gone
-    for folder in (WEB, THUMB):
+    for folder in (WEB, THUMB, MOBILE):
         for n in os.listdir(folder):
             stem = os.path.splitext(n)[0]
+            if folder == MOBILE:
+                stem = re.sub(r"-[LR]$", "", stem) if not any(os.path.splitext(o)[0] == stem for o in manifest) else stem
             if not any(os.path.splitext(o)[0] == stem for o in manifest):
                 if CHECK:
                     problems.append(f"{os.path.relpath(os.path.join(folder, n), ROOT)} has no original any more.")
