@@ -54,6 +54,8 @@ if (book) {
     if (!exists(`pages/${f}`)) errors.push(`\`${f}\` (${where}) is in the book but \`pages/${f}\` does not exist. That page shows empty.`);
     if (!exists(`pages/web/${stem(f)}.webp`) || !exists(`pages/thumb/${stem(f)}.webp`)) errors.push(`\`${f}\` has no web or thumbnail copy in \`pages/web/\` and \`pages/thumb/\`. Run \`python3 tools/pages.py\` (the workflow does this after a push).`);
     const m = files[f];
+    const halves = m && m.spread ? ["-L", "-R"] : [""];
+    if (m && halves.some((x) => !exists(`pages/m/${stem(f)}${x}.webp`))) warnings.push(`\`${f}\` has no phone copy in \`pages/m/\`; phones use the heavier web copy until \`tools/pages.py\` runs.`);
     if (!m) warnings.push(`\`${f}\` is not in \`pages/manifest.json\`; its size is guessed from the name until \`tools/pages.py\` runs.`);
     const spread = typeof it.spread === "boolean" ? it.spread : m ? m.w / m.h > ratio * 1.5 : /\d\d[-_]\d\d(\.|$)/.test(f);
     if (seen.has(f)) warnings.push(`\`${f}\` appears twice in the book (items ${seen.get(f) + 1} and ${i + 1}).`);

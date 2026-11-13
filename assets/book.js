@@ -22,6 +22,13 @@
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var FLIP_MS = reduced ? 1 : 800;
   var hiresOK = true;
+  /* phones and small tablets: light mode. Pages come from pages/m (one page per file,
+     about 60 KB), far pages are unloaded, and the costly extras (big shadows, the
+     Clay image filter) are left out while pages turn. */
+  // ?lite forces it on a computer, ?full turns it off on a phone (for comparing)
+  var LITE = !/[?&]full\b/.test(location.search) && (window.matchMedia("(pointer: coarse)").matches && Math.max(screen.width, screen.height) < 1400 || /[?&]lite\b/.test(location.search));
+  if (LITE) document.documentElement.classList.add("lite");
+  var lastW = 0, lastH = 0;
 
   /* ---------- load ---------- */
   D.load().then(function (r) {
@@ -116,6 +123,9 @@
   function fit(rebuild) {
     var W = stage.clientWidth, H = stage.clientHeight;
     if (!W || !H) return;
+    // a phone's toolbar sliding in and out changes the height by a few pixels; not worth a re-layout mid flip
+    if (!rebuild && pf && Math.abs(W - lastW) < 2 && Math.abs(H - lastH) < (LITE ? 60 : 2) && W / H < 1.05 === lastW / lastH < 1.05) return;
+    lastW = W; lastH = H;
     var two = W / H < 1.05 ? "stack" : "spread";
     var want = modePref === "one" ? "single" : two;
     var changed = want !== mode;
@@ -141,13 +151,17 @@
     el.appendChild(inner);
     if (!page) { el.className += " none"; return el; }
     if (page.blank) { el.className += " blank"; return el; }
-    var src = D.src(page.file);
+    var src = D.src(page.file, page.half);
     el.className += page.half ? " " + page.half : " full";
+    if (LITE) el.className += " cut";            // the phone copy holds this page only
     inner.style.backgroundImage = "url(" + src.thumb + ")";
     var img = document.createElement("img");
     img.className = "pimg"; img.alt = page.label || ""; img.decoding = "async"; img.draggable = false;
-    img.dataset.full = src.full; img.dataset.web = src.web;
-    img.onload = function () { img.classList.add("is-loaded"); };
+    img.dataset.full = src.full; img.dataset.web = LITE ? src.m : src.web; img.dataset.fallback = src.web;
+    img.onload = function () { img.classList.add("is-loaded"); if (LITE) inner.style.backgroundImage = "none"; };
+    img.dataset.thumb = src.thumb;
+    // phone copy missing (not prepared yet): use the web copy, uncut
+    img.onerror = function () { if (img.dataset.fallback && img.getAttribute("src") !== img.dataset.fallback) { el.classList.remove("cut"); img.dataset.web = img.dataset.fallback; img.src = img.dataset.fallback; } };
     inner.appendChild(img);
     return el;
   }
@@ -159,12 +173,14 @@
   }
 
   /* the engine keeps every page in the document; images are only requested near the current view */
+  /* images near the current view are loaded; on phones, far ones are let go again so memory stays small */
   function loadNear() {
-    var idx = engineIndex(cur), span = mode === "stack" ? 3 : 6;
+    var idx = engineIndex(cur), span = mode === "stack" ? 2 : LITE ? 4 : 6, drop = span * 2 + 2;
     items.forEach(function (el, i) {
-      var near = Math.abs(i - idx) <= span;
-      $$(".pimg", el).forEach(function (img) {
-        if (near && !img.getAttribute("src")) img.src = img.dataset.web;
+      var d = Math.abs(i - idx);
+      $$(".pimg:not(.hi)", el).forEach(function (img) {
+        if (d <= span && !img.getAttribute("src")) img.src = img.dataset.web;
+        else if (LITE && d > drop && img.getAttribute("src")) { img.removeAttribute("src"); img.classList.remove("is-loaded"); img.parentNode.style.backgroundImage = "url(" + img.dataset.thumb + ")"; }
       });
     });
   }
@@ -189,7 +205,7 @@
       // the engine goes portrait when the block is narrower than twice minWidth
       minWidth: portrait ? Math.ceil(bw / 2) + 2 : 1, maxWidth: 100000, minHeight: 1, maxHeight: 100000,
       usePortrait: true, showCover: mode === "spread" && book.coverAlone !== false,
-      flippingTime: FLIP_MS, maxShadowOpacity: 0.45, drawShadow: !reduced,
+      flippingTime: LITE ? Math.min(FLIP_MS, 650) : FLIP_MS, maxShadowOpacity: LITE ? 0.3 : 0.45, drawShadow: !reduced,
       useMouseEvents: false, autoSize: false, startPage: engineIndex(cur), mobileScrollSupport: false
     });
     pf.loadFromHTML(items);

@@ -237,17 +237,27 @@
     while (manifest.files[name] && !added[name]) { name = base + "-" + (++k) + name.slice(name.lastIndexOf(".")); }
     return createImageBitmap(file).catch(function () { throw new Error("not an image the browser can read (use WebP, JPG or PNG)"); }).then(function (bmp) {
       var w = bmp.width, h = bmp.height, spread = w / h > D.ratio(book) * 1.5, per = spread ? 2 : 1;
-      return Promise.all([shrink(bmp, WEB_PAGE * per, 0.8), shrink(bmp, THUMB_PAGE * per, 0.7)]).then(function (r) {
+      var mob = spread ? [halfOf(bmp, 0), halfOf(bmp, 1)] : [shrinkW(bmp, 0, 0, w, h, 0.76)];
+      return Promise.all([shrink(bmp, WEB_PAGE * per, 0.8), shrink(bmp, THUMB_PAGE * per, 0.7)].concat(mob)).then(function (r) {
         bmp.close && bmp.close();
         var orig = /\.(webp|jpe?g|png)$/i.test(file.name) ? file : null;
         var p = orig ? Promise.resolve(orig) : shrink(bmp, Math.max(w, h), 0.92);
         return p.then(function (origBlob) {
-          added[name] = { orig: origBlob, web: r[0], thumb: r[1], urlWeb: URL.createObjectURL(r[0]), urlThumb: URL.createObjectURL(r[1]) };
+          added[name] = { orig: origBlob, web: r[0], thumb: r[1], m: r.slice(2), urlWeb: URL.createObjectURL(r[0]), urlThumb: URL.createObjectURL(r[1]) };
           manifest.files[name] = { w: w, h: h, spread: spread };
           return name;
         });
       });
     });
+  }
+  /* phone copies: one page per file, 1100 px wide; a spread is cut into its halves */
+  function halfOf(bmp, side) { var hw = Math.floor(bmp.width / 2); return shrinkW(bmp, side ? hw : 0, 0, side ? bmp.width - hw : hw, bmp.height, 0.76); }
+  function shrinkW(bmp, sx, sy, sw, sh, q) {
+    var s = Math.min(1, 1100 / sw), c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(sw * s)); c.height = Math.max(1, Math.round(sh * s));
+    var ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.imageSmoothingQuality = "high"; ctx.drawImage(bmp, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    return new Promise(function (res, rej) { c.toBlob(function (b) { if (b) res(b); else rej(new Error("could not encode the image")); }, "image/webp", q); });
   }
   function shrink(bmp, longest, q) {
     var s = Math.min(1, longest / Math.max(bmp.width, bmp.height));
@@ -279,9 +289,13 @@
       files.push({ path: "pages/" + f, blob: added[f].orig, why: "original" });
       files.push({ path: "pages/web/" + stem(f) + ".webp", blob: added[f].web, why: "web copy" });
       files.push({ path: "pages/thumb/" + stem(f) + ".webp", blob: added[f].thumb, why: "thumbnail" });
+      var m = added[f].m || [];
+      if (m.length === 2) { files.push({ path: "pages/m/" + stem(f) + "-L.webp", blob: m[0], why: "phone copy" }); files.push({ path: "pages/m/" + stem(f) + "-R.webp", blob: m[1], why: "phone copy" }); }
+      else if (m.length === 1) files.push({ path: "pages/m/" + stem(f) + ".webp", blob: m[0], why: "phone copy" });
     });
     Object.keys(removed).forEach(function (f) {
       files.push({ path: "pages/" + f, remove: true }); files.push({ path: "pages/web/" + stem(f) + ".webp", remove: true }); files.push({ path: "pages/thumb/" + stem(f) + ".webp", remove: true });
+      (manifest.files[f] && manifest.files[f].spread ? ["-L", "-R"] : [""]).forEach(function (x) { files.push({ path: "pages/m/" + stem(f) + x + ".webp", remove: true }); });
     });
     return { files: files, manifest: m };
   }

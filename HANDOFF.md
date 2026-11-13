@@ -55,7 +55,8 @@ its own smaller copies.
 `pages/manifest.json`: `{ "files": { "name.webp": { "w": 9922, "h": 3508, "spread": true } } }`,
 written by `tools/pages.py` and by the page order tool when it adds files.
 
-`pages/web/<stem>.webp` (up to 1600 px per page, quality 80) is what the viewer shows;
+`pages/m/<stem>.webp` or `<stem>-L.webp` and `<stem>-R.webp` (one page, 1100 px wide) is
+what phones show; `pages/web/<stem>.webp` (up to 1600 px per page, quality 80) is what computers show;
 `pages/thumb/<stem>.webp` (200 px per page) for the strip and the tool. Both are made by
 `tools/pages.py` (Pillow) and, for files added in the browser, by `assets/manage.js`
 (canvas). The originals in `pages/` are never changed except for renaming.
@@ -123,6 +124,11 @@ iPad sizes, and `manage.html`; publishing was tested against a mocked `api.githu
    themes, zoom with hi-res swap, strip, contents, deep links; page order tool with
    publish and zip; pages.py and health check in one workflow; order taken from the
    Index page.
+3. Phones glitched during page turns: light mode (`LITE` in book.js, class `lite` on
+   html) with phone copies in `pages/m/` (spreads cut into `-L`/`-R` halves at 1100 px,
+   made by pages.py and by the tool), far pages unloaded, lighter shadow, no image
+   filter, refits ignore toolbar height changes, and the engine patched to drop its
+   resize listener on destroy (`assets/vendor/README.txt`). v=4.
 2. Shafi's review of the first deploy: no fold shading at the spine (seamless spread),
    wheel turns pages, book fills the width, and paper-like page turns instead of a
    rigid leaf. Replaced the home-made leaf with the vendored page-flip engine (v=2).

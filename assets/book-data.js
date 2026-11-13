@@ -15,7 +15,7 @@
      pages(book, manifest)       [{ n, file, half, blank, item, label, w, h }]
      spreads(pages, coverAlone)  [{ i, left, right, first, last }]
      isSpread(item, book, manifest)
-     src(file)                   { web, thumb, full }
+     src(file, half)             { web, thumb, full, m }
      ratio(book)                 width divided by height of one page */
 (function () {
   "use strict";
@@ -69,10 +69,12 @@
     return out;
   }
 
-  function src(file) {
+  /* half: "L" or "R" for one side of a spread; the phone copy (m) is already cut to that side */
+  function src(file, half) {
     var stem = file.replace(/\.[^.]+$/, "");
     var enc = function (p) { return p.split("/").map(encodeURIComponent).join("/"); };
-    return { full: enc("pages/" + file), web: enc("pages/web/" + stem + ".webp"), thumb: enc("pages/thumb/" + stem + ".webp") };
+    return { full: enc("pages/" + file), web: enc("pages/web/" + stem + ".webp"), thumb: enc("pages/thumb/" + stem + ".webp"),
+      m: enc("pages/m/" + stem + (half ? "-" + half : "") + ".webp") };
   }
 
   window.BookData = { load: load, pages: pages, spreads: spreads, isSpread: isSpread, src: src, ratio: ratio };

@@ -159,3 +159,9 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .pimg { transition: none; }
 }
+
+/* ---------- light mode for phones (html.lite, set by book.js) ---------- */
+.page.cut .pimg { object-fit: fill; object-position: center; }   /* the phone copy is exactly one page */
+.lite .book { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12); }
+.lite .page .ph { filter: none; }
+.lite .pimg { transition: none; }
