@@ -39,10 +39,12 @@ zoomed page loads the full-size original for crisp text.
 On phones and small tablets the book switches to a light mode by itself: it loads the
 phone copies in `pages/m/` (each spread cut into its two pages, about 60 KB each, so
 the phone only decodes what it shows), lets go of pages far behind, and leaves out the
-heavy shadows and the Clay image filter while pages turn. Computers load `pages/d/` (one page
-per file at 1800 px) and leave out the shadow cast on the page underneath, which was
-repainted over a large area on every frame and made turns stutter on big screens. `?full` at the end of the
-address turns light mode off on a phone; `?lite` turns it on on a computer.
+heavier shadow and the Clay image filter while pages turn. Computers load `pages/d/` (one
+page per file at 1800 px). `?full` at the end of the address turns light mode off on a phone;
+`?lite` turns it on on a computer.
+
+Every page turns like paper, forward and back, the cover included: the turning page curls
+with its own shading and casts a soft shadow on the page below.
 
 ## 2. Adding, removing and reordering pages: the page order tool
 
@@ -104,9 +106,9 @@ in Book settings.
 Add `?debug` to the address (for example `.../works_flipbook/?debug#p=20`), turn a page, and
 read the black box at the bottom left: screen size, mode, whether the operating system asks
 for reduced motion, the turn length and the frame rate of the last turn. A screenshot of it
-is enough to find the cause. The turn no longer switches off under the system's reduce
-motion setting (Windows: Animation effects; macOS: Reduce motion); `?motion=off` makes the
-page change instantly if someone prefers that.
+is enough to find the cause. The paper turn is the same whether or not the system asks for
+reduced motion (Windows: Animation effects; macOS: Reduce motion); `?motion=off` makes the
+page change instantly, without the turn, if someone prefers that.
 
 ## 6. Keys
 

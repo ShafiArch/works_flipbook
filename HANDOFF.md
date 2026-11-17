@@ -124,23 +124,29 @@ iPad sizes, and `manage.html`; publishing was tested against a mocked `api.githu
    themes, zoom with hi-res swap, strip, contents, deep links; page order tool with
    publish and zip; pages.py and health check in one workflow; order taken from the
    Index page.
-5. "Still not working on the desktop" after item 4: the likely cause is the system reduce
-   motion setting, which made `FLIP_MS` 1 ms (an instant change, no visible turn) while
-   phones animated. Now 550 ms without shadows under that setting, 800 ms otherwise,
-   `?motion=off` for instant; `?debug` shows a readout (size, mode, lite, reduce motion,
-   engine state, frame times of the last turn). v=6.
-4. Turns stuttered on large desktop screens: the engine's outer shadow (`.stf__outerShadow`,
-   a gradient with a clip path) was the cost, about 50 ms a frame at 2560 px; hidden on
-   computers in book.css. Computers now load one-page copies from `pages/d/` (1800 px, made
-   by pages.py). v=5.
+2. Shafi's review of the first deploy: no fold shading at the spine (seamless spread),
+   wheel turns pages, book fills the width, and paper-like page turns instead of a
+   rigid leaf. Replaced the home-made leaf with the vendored page-flip engine (v=2).
 3. Phones glitched during page turns: light mode (`LITE` in book.js, class `lite` on
    html) with phone copies in `pages/m/` (spreads cut into `-L`/`-R` halves at 1100 px,
    made by pages.py and by the tool), far pages unloaded, lighter shadow, no image
    filter, refits ignore toolbar height changes, and the engine patched to drop its
    resize listener on destroy (`assets/vendor/README.txt`). v=4.
-2. Shafi's review of the first deploy: no fold shading at the spine (seamless spread),
-   wheel turns pages, book fills the width, and paper-like page turns instead of a
-   rigid leaf. Replaced the home-made leaf with the vendored page-flip engine (v=2).
+4. "The flip does not work on the desktop": computers now load one-page copies from
+   `pages/d/` (1800 px, made by pages.py). The engine's cast shadow was also hidden on
+   computers after headless (software rendered) timings; undone in item 6. v=5.
+5. Still not working after item 4: the real cause was the system reduce motion setting
+   on Shafi's computer, which made `FLIP_MS` 1 ms (an instant change, no visible turn)
+   while his phone animated. `?debug` shows a readout (size, mode, lite, reduce motion,
+   shadows, engine state, frame times of the last turn). v=6.
+6. "The flip works but feels like a card": item 5 had also switched the shadows off under
+   reduce motion, and item 4 hid the cast shadow on computers. Now every device gets the
+   same paper turn (800 ms, 650 on phones) with the curl shading and the cast shadow, in
+   both directions; only `?motion=off` gives the instant change. The engine no longer
+   makes the cover (and a lone last page) a stiff "hard" page, so those bend like paper
+   too (vendor patch, see `assets/vendor/README.txt`). If a slow computer ever stutters,
+   `?debug` shows the frame times; do not take the shadows away without asking Shafi,
+   they are the paper feel he wants. v=7.
 
 ## Open items
 

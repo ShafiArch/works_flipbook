@@ -20,12 +20,12 @@
   var items = [];                      // page elements handed to the engine, in order
   var Z = { s: 1, tx: 0, ty: 0 }, bw = 0, bh = 0, left0 = 0, top0 = 0;
   /* The operating system's "reduce motion" setting (Windows: Animation effects off; macOS:
-     Reduce motion) used to make page turns instant, which looked like the flip not working on
-     that computer while phones were fine. The turn is the book, so it stays: shorter and
-     without shadows when the setting is on, and ?motion=off forces the instant change. */
+     Reduce motion) used to make page turns instant, and later shadowless, which looked like
+     a broken flip, then like a card, on that computer. The paper turn is the book, so it is
+     the same everywhere; ?motion=off gives the instant change on purpose. */
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var noMotion = /[?&]motion=off\b/.test(location.search);
-  var FLIP_MS = noMotion ? 1 : reduced ? 550 : 800;
+  var FLIP_MS = noMotion ? 1 : 800;
   var hiresOK = true;
   /* phones and small tablets: light mode. Pages come from pages/m (one page per file,
      about 60 KB), far pages are unloaded, and the costly extras (big shadows, the
@@ -43,7 +43,7 @@
     var f = frameLog.slice().sort(function (a, b) { return a - b; });
     dbg.textContent = [
       "viewport " + stage.clientWidth + " x " + stage.clientHeight + "  dpr " + (window.devicePixelRatio || 1) + "  screen " + screen.width + " x " + screen.height,
-      "mode " + mode + "  lite " + LITE + "  reduce-motion " + reduced + "  flip " + FLIP_MS + " ms  hires " + hiresOK,
+      "mode " + mode + "  lite " + LITE + "  reduce-motion " + reduced + "  flip " + FLIP_MS + " ms  shadows " + !noMotion + "  hires " + hiresOK,
       "engine " + (pf ? pf.getState() : "none") + "  page " + cur + "  zoom " + Math.round(Z.s * 100) + "%",
       f.length ? "last turn: " + f.length + " frames, median " + Math.round(f[f.length >> 1]) + " ms, worst " + Math.round(f[f.length - 1]) + " ms" : "last turn: (turn a page)",
       navigator.userAgent
@@ -230,7 +230,8 @@
       // the engine goes portrait when the block is narrower than twice minWidth
       minWidth: portrait ? Math.ceil(bw / 2) + 2 : 1, maxWidth: 100000, minHeight: 1, maxHeight: 100000,
       usePortrait: true, showCover: mode === "spread" && book.coverAlone !== false,
-      flippingTime: LITE ? Math.min(FLIP_MS, 650) : FLIP_MS, maxShadowOpacity: LITE ? 0.3 : 0.45, drawShadow: !reduced && !noMotion,
+      // paper: the curl shading on the turning page and the shadow it casts on the page below, both directions
+      flippingTime: LITE ? Math.min(FLIP_MS, 650) : FLIP_MS, maxShadowOpacity: LITE ? 0.3 : 0.4, drawShadow: !noMotion,
       useMouseEvents: false, autoSize: false, startPage: engineIndex(cur), mobileScrollSupport: false
     });
     pf.loadFromHTML(items);
