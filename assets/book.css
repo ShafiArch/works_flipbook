@@ -165,3 +165,9 @@ button { font: inherit; color: inherit; }
 .lite .book { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12); }
 .lite .page .ph { filter: none; }
 .lite .pimg { transition: none; }
+
+/* ---------- computers ----------
+   On a large screen the engine's outer shadow (the gradient cast on the page underneath)
+   is repainted over a very large area on every frame of a turn, which made turns stutter.
+   It is left out there; the curl shading on the turning page itself stays. */
+html:not(.lite) .stf__outerShadow { display: none !important; }

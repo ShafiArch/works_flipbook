@@ -153,14 +153,14 @@
     if (page.blank) { el.className += " blank"; return el; }
     var src = D.src(page.file, page.half);
     el.className += page.half ? " " + page.half : " full";
-    if (LITE) el.className += " cut";            // the phone copy holds this page only
+    el.className += " cut";                      // pages/m and pages/d hold this page only, so a turning page redraws one page, not the whole spread
     inner.style.backgroundImage = "url(" + src.thumb + ")";
     var img = document.createElement("img");
     img.className = "pimg"; img.alt = page.label || ""; img.decoding = "async"; img.draggable = false;
-    img.dataset.full = src.full; img.dataset.web = LITE ? src.m : src.web; img.dataset.fallback = src.web;
-    img.onload = function () { img.classList.add("is-loaded"); if (LITE) inner.style.backgroundImage = "none"; };
+    img.dataset.full = src.full; img.dataset.web = LITE ? src.m : src.d; img.dataset.fallback = src.web;
+    img.onload = function () { img.classList.add("is-loaded"); inner.style.backgroundImage = "none"; };
     img.dataset.thumb = src.thumb;
-    // phone copy missing (not prepared yet): use the web copy, uncut
+    // one-page copy missing (not prepared yet): use the web copy, uncut
     img.onerror = function () { if (img.dataset.fallback && img.getAttribute("src") !== img.dataset.fallback) { el.classList.remove("cut"); img.dataset.web = img.dataset.fallback; img.src = img.dataset.fallback; } };
     inner.appendChild(img);
     return el;
@@ -175,12 +175,12 @@
   /* the engine keeps every page in the document; images are only requested near the current view */
   /* images near the current view are loaded; on phones, far ones are let go again so memory stays small */
   function loadNear() {
-    var idx = engineIndex(cur), span = mode === "stack" ? 2 : LITE ? 4 : 6, drop = span * 2 + 2;
+    var idx = engineIndex(cur), span = mode === "stack" ? 2 : 4, drop = span * 2 + 2;
     items.forEach(function (el, i) {
       var d = Math.abs(i - idx);
       $$(".pimg:not(.hi)", el).forEach(function (img) {
         if (d <= span && !img.getAttribute("src")) img.src = img.dataset.web;
-        else if (LITE && d > drop && img.getAttribute("src")) { img.removeAttribute("src"); img.classList.remove("is-loaded"); img.parentNode.style.backgroundImage = "url(" + img.dataset.thumb + ")"; }
+        else if (d > drop && img.getAttribute("src")) { img.removeAttribute("src"); img.classList.remove("is-loaded"); img.parentNode.style.backgroundImage = "url(" + img.dataset.thumb + ")"; }
       });
     });
   }

@@ -8,7 +8,7 @@ shows comes from two files and one folder:
 | --- | --- |
 | The order of the pages, section names, title, links, settings | `content/book.json` |
 | The page images, full size, exactly as exported from Photoshop | `pages/` |
-| Smaller copies the viewer loads (made for you) | `pages/web/` (computers), `pages/m/` (phones, one page per file), `pages/thumb/` |
+| Smaller copies the viewer loads (made for you) | `pages/d/` (computers) and `pages/m/` (phones), one page per file; `pages/web/`, `pages/thumb/` |
 | Sizes of the files in `pages/` (made for you) | `pages/manifest.json` |
 | The viewer | `index.html`, `assets/book.js`, `assets/book.css`, the page-turn engine in `assets/vendor/` |
 | The page order tool | `manage.html`, `assets/manage.js` |
@@ -39,7 +39,9 @@ zoomed page loads the full-size original for crisp text.
 On phones and small tablets the book switches to a light mode by itself: it loads the
 phone copies in `pages/m/` (each spread cut into its two pages, about 60 KB each, so
 the phone only decodes what it shows), lets go of pages far behind, and leaves out the
-heavy shadows and the Clay image filter while pages turn. `?full` at the end of the
+heavy shadows and the Clay image filter while pages turn. Computers load `pages/d/` (one page
+per file at 1800 px) and leave out the shadow cast on the page underneath, which was
+repainted over a large area on every frame and made turns stutter on big screens. `?full` at the end of the
 address turns light mode off on a phone; `?lite` turns it on on a computer.
 
 ## 2. Adding, removing and reordering pages: the page order tool

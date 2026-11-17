@@ -124,6 +124,10 @@ iPad sizes, and `manage.html`; publishing was tested against a mocked `api.githu
    themes, zoom with hi-res swap, strip, contents, deep links; page order tool with
    publish and zip; pages.py and health check in one workflow; order taken from the
    Index page.
+4. Turns stuttered on large desktop screens: the engine's outer shadow (`.stf__outerShadow`,
+   a gradient with a clip path) was the cost, about 50 ms a frame at 2560 px; hidden on
+   computers in book.css. Computers now load one-page copies from `pages/d/` (1800 px, made
+   by pages.py). v=5.
 3. Phones glitched during page turns: light mode (`LITE` in book.js, class `lite` on
    html) with phone copies in `pages/m/` (spreads cut into `-L`/`-R` halves at 1100 px,
    made by pages.py and by the tool), far pages unloaded, lighter shadow, no image
