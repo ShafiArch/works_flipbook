@@ -99,6 +99,15 @@ opens the book in a theme.
 date as you turn pages, so any page can be linked). The "Works" link in the top bar is set
 in Book settings.
 
+## 5a. If the page turn looks wrong on one computer
+
+Add `?debug` to the address (for example `.../works_flipbook/?debug#p=20`), turn a page, and
+read the black box at the bottom left: screen size, mode, whether the operating system asks
+for reduced motion, the turn length and the frame rate of the last turn. A screenshot of it
+is enough to find the cause. The turn no longer switches off under the system's reduce
+motion setting (Windows: Animation effects; macOS: Reduce motion); `?motion=off` makes the
+page change instantly if someone prefers that.
+
 ## 6. Keys
 
 Right arrow, space or Page Down: next. Left arrow or Page Up: previous. Home, End. Plus,

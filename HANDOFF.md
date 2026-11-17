@@ -124,6 +124,11 @@ iPad sizes, and `manage.html`; publishing was tested against a mocked `api.githu
    themes, zoom with hi-res swap, strip, contents, deep links; page order tool with
    publish and zip; pages.py and health check in one workflow; order taken from the
    Index page.
+5. "Still not working on the desktop" after item 4: the likely cause is the system reduce
+   motion setting, which made `FLIP_MS` 1 ms (an instant change, no visible turn) while
+   phones animated. Now 550 ms without shadows under that setting, 800 ms otherwise,
+   `?motion=off` for instant; `?debug` shows a readout (size, mode, lite, reduce motion,
+   engine state, frame times of the last turn). v=6.
 4. Turns stuttered on large desktop screens: the engine's outer shadow (`.stf__outerShadow`,
    a gradient with a clip path) was the cost, about 50 ms a frame at 2560 px; hidden on
    computers in book.css. Computers now load one-page copies from `pages/d/` (1800 px, made

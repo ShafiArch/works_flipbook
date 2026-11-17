@@ -171,3 +171,6 @@ button { font: inherit; color: inherit; }
    is repainted over a very large area on every frame of a turn, which made turns stutter.
    It is left out there; the curl shading on the turning page itself stays. */
 html:not(.lite) .stf__outerShadow { display: none !important; }
+
+/* ?debug readout */
+.dbg { position: fixed; left: 8px; bottom: 56px; z-index: 60; margin: 0; padding: 8px 10px; background: var(--ink); color: var(--bg); font: 11px/1.5 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; max-width: 60vw; opacity: 0.92; pointer-events: none; }
