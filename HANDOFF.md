@@ -17,6 +17,9 @@ its own smaller copies.
 
 ## Rules
 
+- Commits: author and committer `Shafiul Islam <145989139+ShafiArch@users.noreply.github.com>`, no AI
+  co-author, session or "generated with" lines. The Book upkeep workflow commits under the
+  same name. His account is the only contributor (history rewritten in November 2026).
 - No em dashes or en dashes anywhere (code comments, docs, JSON, site text); commas,
   semicolons, parentheses or periods. The health check flags them.
 - Plain files, no build step. The one browser dependency is the page-turn engine

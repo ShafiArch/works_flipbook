@@ -52,7 +52,7 @@ jobs:
             echo "Nothing to commit."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            git -c user.name="book-upkeep" -c user.email="actions@users.noreply.github.com" commit -m "Prepare pages (web and thumbnail copies, manifest)"
+            git -c user.name="Shafiul Islam" -c user.email="145989139+ShafiArch@users.noreply.github.com" commit -m "Prepare pages (web and thumbnail copies, manifest)"
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
             # a push made by a workflow does not always start the Pages build; ask for one
